@@ -6,7 +6,8 @@ Use no WordPress.<br>
 1- Adicione o plugin Snippets no seu Wordpress. <br>
 2- Clique em adicionar novo.<br>
 3- Coloque o nome cert (ou o que vc quiser)<br>
-4- Cole o código html em anexo no código<br>
+4- Cole o código html (validar-certificado.html) em anexo no código<br>
+https://github.com/lagando/Script-de-verificar-certificados/blob/main/validar-certificado.html <br>
 5- adicone o banco de dados da seguinte maneira:<br>
 <br>
   5a- la na linha 29 tem o exemplo:<br>
