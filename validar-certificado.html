@@ -1,0 +1,122 @@
+<!-- Verificação de Certificado - Cole este trem no modo TEXTO/HTML ou no backend -->
+<style>
+  .aadv-cert-wrap { max-width:720px; margin:20px auto; font-family: Arial, Helvetica, sans-serif; }
+  .aadv-cert-label { font-weight:600; margin-bottom:6px; display:block; }
+  .aadv-cert-input { padding:8px; width:70%; max-width:420px; margin-right:8px; box-sizing:border-box; }
+  .aadv-cert-btn { padding:8px 12px; }
+  .aadv-cert-result { margin-top:12px; padding:12px; border-radius:6px; }
+  .aadv-cert-valid { background:#e9f9ee; border:1px solid #c8f0d0; color:#064b22; }
+  .aadv-cert-invalid { background:#fff5f5; border:1px solid #f0c8c8; color:#7a1b1b; }
+  .aadv-cert-list { margin:8px 0 0 16px; }
+</style>
+
+<div class="aadv-cert-wrap" role="region" aria-label="Verificação de certificado">
+  <label class="aadv-cert-label" for="aadv-cert-name">Nome e sobrenome completo para validação do certificado:</label>
+  <input id="aadv-cert-name" class="aadv-cert-input" type="text" placeholder="Digite o nome completo" />
+  <button id="aadv-cert-btn" class="aadv-cert-btn" type="button">VERIFICAR</button>
+
+  <!-- saída aparece aqui -->
+  <div id="aadv-cert-output" class="aadv-cert-result" aria-live="polite" style="display:none;"></div>
+</div>
+
+<script>
+(function(){
+  document.addEventListener('DOMContentLoaded', function(){
+
+    // --- ADICIONE AQUI SEU BANCO DE DADOS (MANTENHA O FORMATO) ---
+const CERT_DB = [
+  {
+    name: 'João da silva',
+    certificates: [
+      { course: 'NOME DO CURSO', date: '01/01/2000', hours: '4 horas' }
+    ]
+  },
+  {
+    name: 'Gabriel',
+    certificates: [
+      { course: 'Oficina de código', date: '12/03/2025', hours: '2 horas' },
+      { course: 'Acessibilidade Digital', date: '20/06/2024', hours: '6 horas' }
+    ]
+  }
+];
+
+    // -----------------------------------------------------------
+
+    const input = document.getElementById('aadv-cert-name');
+    const btn = document.getElementById('aadv-cert-btn');
+    const out = document.getElementById('aadv-cert-output');
+
+    // remove espaços extras, transforma em lowercase e remove acentos
+    function normalizeName(s){
+      if (!s) return '';
+      return s.trim()
+              .replace(/\s+/g,' ')
+              .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // remove acentos
+              .toLowerCase();
+    }
+
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function showResult(html, valid){
+      out.innerHTML = html;
+      out.style.display = 'block';
+      out.className = 'aadv-cert-result ' + (valid ? 'aadv-cert-valid' : 'aadv-cert-invalid');
+      // rola a tela levemente até o resultado (útil em mobile)
+      out.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function searchByName(name){
+      const target = normalizeName(name);
+      return CERT_DB.filter(entry => normalizeName(entry.name) === target);
+    }
+
+    function buildCertificateText(cert){
+      return `Participou da capacitação/curso: "${cert.course}" oferecida pela AADV-PC, realizada em ${cert.date}, totalizando ${cert.hours}. ✅`;
+    }
+
+    function handleCheck(){
+      const name = input.value || '';
+      if (!name.trim()){
+        showResult('Por favor, digite o nome completo para verificação.', false);
+        return;
+      }
+
+      const matches = searchByName(name);
+
+      if (matches.length === 0){
+        showResult('Certificado NÃO encontrado para esse nome. ❌', false);
+        return;
+      }
+
+      let html = '';
+      matches.forEach(person => {
+        html += `<div><strong>${escapeHtml(person.name)}</strong></div>`;
+        html += '<ul class="aadv-cert-list">';
+        person.certificates.forEach(cert => {
+          html += `<li>${escapeHtml(buildCertificateText(cert))}</li>`;
+        });
+        html += '</ul>';
+      });
+
+      showResult(html, true);
+    }
+
+    btn.addEventListener('click', handleCheck);
+    input.addEventListener('keydown', function(e){
+      if (e.key === 'Enter') { e.preventDefault(); handleCheck(); }
+    });
+
+  }); // DOMContentLoaded
+})();
+</script>
+<br><br><br>
+<div style="text-align:right; font-size:10px; color:#999; margin-top:10px; opacity:0.6;">
+  Criado por: Gabriel Bahia — <a href="mailto:gabrielbahiapro@gmail.com" style="color:#999; text-decoration:none;">gabrielbahiapro@gmail.com</a>
+</div>
