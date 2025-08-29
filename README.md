@@ -1,13 +1,13 @@
-# Script-de-verificar-certificados
-Script de verificar certificados e tal, só jogar no site e puxar, cadastro é manual infelizmente
-Use no WordPress.
+# Script-de-verificar-certificados<br>
+Script de verificar certificados e tal, só jogar no site e puxar, cadastro é manual infelizmente<br>
+Use no WordPress.<br>
 
 
-1- Adicione o plugin Snippets no seu Wordpress. 
-2- Clique em adicionar novo.
-3- Coloque o nome cert (ou o que vc quiser)
-4- Cole o código html em anexo no código
-5- adicone o banco de dados da seguinte maneira:
+1- Adicione o plugin Snippets no seu Wordpress. <br>
+2- Clique em adicionar novo.<br>
+3- Coloque o nome cert (ou o que vc quiser)<br>
+4- Cole o código html em anexo no código<br>
+5- adicone o banco de dados da seguinte maneira:<br>
 
   5a- la na linha 29 tem o exemplo:
     {
